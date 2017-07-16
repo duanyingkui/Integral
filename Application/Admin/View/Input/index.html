@@ -1,0 +1,238 @@
+<extend name="Base:base"/>
+<block name="main">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <a href="" class="minimize">&minus;</a>
+          </div>
+          <h4 class="panel-title">积分录入</h4>
+        </div>
+        <div class="panel-body">
+          <h4>报表格式为 .xls或.xlsx</h4>
+          <hr>
+          <div class="form-group">
+                <label class="col-sm-3 control-label" style="font-size: 26px;margin-top: 10px;"> 学期 </label>
+                <div class="col-sm-6">
+                    <select class="form-control" id="select-top">
+                      <foreach name="data" item='vo'>
+                        <option>{$vo.sc_term}</option>
+                      </foreach>
+                    </select>
+                </div>
+            </div>
+          <br />
+          <form action="input/upload/table/scoredetail" class="dropzone" id="dropzone">
+            <div class="fallback">
+              <input name="file" type="file" multiple />
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <a href="" class="minimize maximize">+</a>
+          </div>
+          <h2 class="panel-title">积分录入</h2>
+        </div>
+        <div class="panel-body panel-body-nopadding" style="display: none;">
+          
+          <form class="form-horizontal form-bordered">
+            
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" > 学号 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="学生学号" class="form-control" id="s_id" maxlength="11" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 姓名 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="学生姓名" class="form-control" id="s_name" disabled=""/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 班级 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="学生班级" class="form-control" id="c_name" disabled=""/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 积分 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="积分分数" class="form-control" id="sc_number" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 原因 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="积分原因" class="form-control" id="sc_reason" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 部室 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="积分统计的部室" class="form-control" id="sc_union" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 时间 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="积分统计的时间" class="form-control" id="sc_time" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 学期 </label>
+                  <div class="col-sm-6">
+                    <select class="form-control" id="select">
+                      <foreach name="data" item='vo'>
+                        <option>{$vo.sc_term}</option>
+                      </foreach>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="disabledinput"> 录入者</label>
+                    <div class="col-sm-6">
+                        <input type="text" placeholder="Disabled Input" class="form-control" disabled="" id="sc_who" />
+                    </div>
+                </div>
+              </form>       
+
+              <div class="panel-footer">
+                 <div class="row">
+                  <div class="col-sm-6 col-sm-offset-3">
+                    <button class="btn btn-primary" id="sub"> 录 入 </button> &nbsp;
+                    <button class="btn btn-default" id="cancel"> 取 消 </button>
+                  </div>
+                 </div>
+                </div><!-- panel-footer -->  
+        </div><!-- panel-body -->
+        
+   
+      </div><!-- panel -->
+
+
+  
+      <script>
+          var str=new Array();
+          str[0]="上传失败！";
+          var a =0;
+          Dropzone.options.dropzone = {
+            //maxFilesize: 2, // MB
+            acceptedFiles: ".xlsx,.xls",
+            init: function() {
+              this.on("addedfile", function (file, data) {
+                  layer.alert('正在上传！', {
+                    skin: 'layui-layer-molv' //样式类名
+                    ,closeBtn: 0
+                  }, function(){
+                    layer.alert(str.join('<br>'), {
+                      skin: 'layui-layer-lan'
+                      ,closeBtn: 0
+                      ,shift: 4 //动画类型
+                    });
+                    str.splice(0,str.length);
+                    a=0;
+                    str[0]="上传失败！";
+                  });
+               });
+              this.on("success", function (file, data) {
+                  str[a++]=file.name+"    "+data.info;
+               });
+            }
+          };
+
+          $(function(){
+            document.cookie="term="+$('#select-top').val();
+          });
+          $("#select-top").change(function(){
+           document.cookie="term="+$('#select-top').val();
+          }); 
+          $("#sc_who").val("{$name}");
+
+          function getNowFormatDate() {
+              var date = new Date();
+              var seperator = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator + month + seperator + strDate;
+              return currentdate;
+          }
+
+          $("#sub").click(function() {
+            var time = getNowFormatDate();
+            $.ajax({
+              type: 'POST',
+              url: "{:U('Input/input')}",
+              data: {
+                's_id': $('#s_id').val(),
+                's_name': $('#s_name').val(),
+                'c_name': $('#c_name').val(),
+                'sc_number': $('#sc_number').val(),
+                'sc_reason': $('#sc_reason').val(),
+                'sc_time': $('#sc_time').val(),
+                'sc_who': $('#sc_who').val(),
+                'sc_union': $('#sc_union').val(),
+                'sc_uploadtime': time,
+                'sc_term': $('#select').val(),
+              },
+              success: function(data) {
+                if (data.status == 0) {
+                  layer.msg(data.info, {
+                    icon: 2
+                  });
+                } else {
+                  layer.msg(data.info, {
+                    icon: 1
+                  });
+
+                $("#cancel").click();
+                }
+              }
+            })
+          });
+
+          $("#cancel").click(function() {
+            $('#s_id').val("");
+            $('#s_name').val("");
+            $('#c_name').val("");
+            $('#sc_number').val("");
+            $('#sc_reason').val("");
+            $('#sc_time').val("");
+            $('#sc_union').val("");
+          });
+          $("#s_id").change(function(){
+            $.ajax({
+              type: 'POST',
+              url: "{:U('Input/autoSub')}",
+              data: {
+                's_id': $('#s_id').val(),
+              },
+              success: function(data) {
+                if(data.info){
+                  layer.msg(data.info, {
+                    icon: 2
+                  });
+                  $('#s_name').val("");
+                  $('#c_name').val("");
+                }else{
+                  var res= JSON.parse(data);
+                  $('#s_name').val(res.s_name);
+                  $('#c_name').val(res.c_name);
+                }
+
+              }
+            });
+          });
+      </script>
+</block>

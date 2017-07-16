@@ -1,0 +1,56 @@
+<extend name="searchBase" />
+<block name="cssStyle">
+</block>
+<block name="content">
+    <h4>{$title}</h4>
+    <h6>{$term}</h6>
+    <if condition="$isPerson eq 1" >
+        <div class="table-responsive" style="height: 400px;margin-top:20px;overflow-x: auto;overflow-y: auto">
+            <table class="table mb30" style="min-width: 400px;">
+                <thead align="center">
+                <tr style=";color: #0000cc;">
+                    <td>姓名</td>
+                    <td>积分</td>
+                    <td>积分变动原因</td>
+                    <td>时间</td>
+                    <td>部室</td>
+                </tr>
+                <foreach name='list' item='v'>
+                <tr>
+                    <td>{$v.s_name}</td>
+                    <td>{$v.sc_number}</td>
+                    <td>{$v.sc_reason}</td>
+                    <td>{$v.sc_time}</td>
+                    <td>{$v.sc_union}</td>
+                </tr>
+                </foreach>
+                </thead>
+            </table>
+        </div>
+        <else/>
+        <div class="table-responsive" style="height: 85%;margin-top:40px;overflow-x: auto;overflow-y: auto">
+            <table class="table mb30" style="min-width: 300px;">
+                <thead align="center">
+                <tr>
+                    <td>姓名</td>
+                    <td>总分</td>
+                    <td>班级排名</td>
+                    <!--<td>查看详情</td>-->
+                </tr>
+                <foreach name='list' item='v' key="k">
+                    <tr>
+                        <!--<td>{$v.s_name}</td>-->
+                        <td><a href="personScoreDetail?s_id={$v.s_id}&term={$term}">{$v.s_name}</a></td>
+                        <td>{$v.all_score}</td>
+                        <td>{$k+1}</td>
+
+                    </tr>
+                </foreach>
+                </thead>
+            </table>
+        </div>
+    </if>
+</block>
+<block name="admin">
+
+</block>

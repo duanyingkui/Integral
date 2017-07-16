@@ -1,0 +1,20 @@
+<extend name="Base:base"/>
+<block name="u_name">{$data}</block>
+<block name="main">
+    <p>{$data}</p>
+    <table class="table mb30">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>姓名</th>
+            <th>Last Name</th>
+            <th>Username</th>
+        </tr>
+        </thead>
+        <tbody>
+            <for start="0" end="10">
+                {$i}
+            </for>
+        </tbody>
+    </table>
+</block>

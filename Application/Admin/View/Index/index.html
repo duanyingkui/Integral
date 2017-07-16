@@ -1,0 +1,33 @@
+<extend name="Base:base"/>
+<block name="cssStyle">
+<style>
+ #center0{
+
+ }
+</style>
+</block>
+<block name="main">
+	<div id="c-top"></div>
+	<link rel="stylesheet" href="__BRACKET__/css/overBar/overhang.min.css">
+	<script src="__BRACKET__/js/overBar/jquery-ui.min.js"></script>
+	<script src="__BRACKET__/js/overBar/overhang.min.js"></script>
+<script>
+//用window的onload事件，窗体加载完毕的时候
+window.onload=function(){
+	setTimeout(function(){
+		$('#c-top').overhang({},"欢迎使用 积分管理系统 ^_^");
+	},1000);
+}
+/*setTimeout(function(){
+	window.location.href="http://localhost/Integral/index.php/Admin/input";	
+},7000);*/
+</script>
+<div id="center0" style="padding:5% 17%;;height: 500px;margin:0 auto;word-wrap: break-word;">
+	<h2>友情提示：</h2><br>
+	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如您在使用过程中出现问题，无法导入EXCEL文件，请先检查EXCEL表格格式是否有误,或者换个浏览器试试。如有技术问题，请联系我们。</p> <br>
+	<p>责任人：王飞&nbsp;&nbsp;李云&nbsp;&nbsp;宋鸿浩&nbsp;&nbsp;段莹奎</p>
+	<p>联系QQ：1368510132</p>
+	<p>技术支持：三月软件工作室</p>
+	<p>工作室地址：信息工程学院主楼 0#906</p>
+</div>
+</block>

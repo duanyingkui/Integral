@@ -1,0 +1,81 @@
+<extend name="Base:base"/>
+<block name="main">
+ <div class="contentpanel">
+      
+
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <a href="" class="minimize">&minus;</a>
+          </div>
+          <h4 class="panel-title">报表录入</h4>
+        </div>
+        <div class="panel-body">
+          <h4>报表格式为 .xls或.xlsx</h4>
+          <br />
+          <form action="input/upload/table/student" class="dropzone" id="dropzone">
+            <div class="fallback">
+              <input name="file" type="file" multiple />
+            </div>
+          </form>
+        </div>
+      </div>
+
+  
+      <script>
+
+      var str=new Array();
+      str[0]="上传失败！"
+      var a =0;
+            
+      Dropzone.options.dropzone = {
+        //maxFilesize: 2, // MB
+        acceptedFiles: ".xlsx,.xls",
+        init: function() {
+          this.on("addedfile", function (file, data) {
+              layer.alert('正在上传！', {
+                skin: 'layui-layer-molv' //样式类名
+                ,closeBtn: 0
+              }, function(){
+                layer.alert(str.join('<br>'), {
+                  skin: 'layui-layer-lan'
+                  ,closeBtn: 0
+                  ,shift: 4 //动画类型
+                });
+                str.splice(0,str.length);
+                a=0;
+
+                str[0]="上传失败！"
+              });
+           });
+          this.on("success", function (file, data) {
+              str[a++]=file.name+"  "+data.info;
+           });
+        }
+
+
+      };
+
+          $("#sub").click(function(){
+          		$.ajax({
+          			type:'POST',
+          			url:"{:U('Class/input')}",
+          			data:{
+          				'c_name':$('#c_name').val(),
+          			},
+          			success:function(data){
+          				 if(data.status==0){
+                         layer.msg(data.info,{icon:2});
+                     }else{
+                         layer.msg(data.info,{icon:1});
+                     }  
+          			}
+          		});
+          }); 
+          $("#cancel").click(function(){
+                  $('#c_name').val("");
+          });         
+      </script>
+
+</block>

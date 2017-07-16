@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分页</title>
+</head>
+<body>
+    <div id='test'>  
+        <volist id='list' name='list'>   
+            {$list.id},{$list.sc_term}
+        </volist>
+            {$page}  
+    </div>
+</body>
+
+
+<script type="text/javascript">
+function test(id){    
+        $.get('Test/test', {'p':id}, function(data){  //用get方法发送信息到TestAction中的test方法
+        $("#test").replaceWith("<div  id='test'>"+data+"</div>"); //test一定要和tpl中的一致
+    });
+}
+</script>
+</html>

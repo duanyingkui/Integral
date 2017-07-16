@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="refresh">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+<!--     <link rel="shortcut icon" href="__BRACKET__/images/logo.png" type="image/png"> -->
+    <title>三月信息统计</title>
+    <link href="__BRACKET__/css/style.default.css" rel="stylesheet">
+    <link rel="stylesheet" href="__BRACKET__/css/dropzone.css" />
+    <script src="__BRACKET__/js/dropzone.min.js"></script>
+    <script src="__BRACKET__/js/jquery-1.11.1.min.js"></script>
+    <script src="__BRACKET__/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="__BRACKET__/js/jquery-ui-1.10.3.min.js"></script>
+    <script src="__BRACKET__/js/bootstrap.min.js"></script>
+    <script src="__BRACKET__/js/modernizr.min.js"></script>
+    <script src="__BRACKET__/js/jquery.sparkline.min.js"></script>
+    <script src="__BRACKET__/js/toggles.min.js"></script>
+    <script src="__BRACKET__/js/retina.min.js"></script>
+    <script src="__BRACKET__/js/jquery.cookies.js"></script>
+
+    <script src="__BRACKET__/js/morris.min.js"></script>
+    <script src="__BRACKET__/js/raphael-2.1.0.min.js"></script>
+    <script src="__BRACKET__/js/jquery.datatables.min.js"></script>
+    <script src="__BRACKET__/js/custom.js"></script>
+    <script src="__BRACKET__/js/select2.min.js"></script>
+    <script src="__STATIC__/layer/layer.js"></script>
+
+</head>
+<body>
+<div id="preloader">
+    <div id="status"><i class="fa fa-spinner fa-spin"></i></div>
+</div>
+<block name="main">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <a href="" class="minimize maximize">+</a>
+          </div>
+          <h2 class="panel-title">信息录入</h2> 
+        </div>
+        <div class="panel-body panel-body-nopadding">
+          
+          <form class="form-horizontal form-bordered">
+            
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" > 学号 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="学生学号" class="form-control" id="m_id" maxlength="11" />
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="disabledinput"> 姓名</label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="学生姓名" class="form-control" id="m_name"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" for="disabledinput"> 班级 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="学生班级" class="form-control" id="m_class"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 性别 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="性别" class="form-control" id="m_sex" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 生日 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="生日" class="form-control" id="m_born" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 籍贯 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="籍贯" class="form-control" id="m_place" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 现居地 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="现居地" class="form-control" id="m_address" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 爱好 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="爱好" class="form-control" id="m_hobby" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 关注的技术领域 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="关注的技术领域" class="form-control" id="m_domanial" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> QQ </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="QQ" class="form-control" id="m_qq" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 手机号 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="手机号" class="form-control" id="m_phone" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> Email </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="Email" class="form-control" id="m_email" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"> 个人说明 </label>
+                  <div class="col-sm-6">
+                    <input type="text" placeholder="个人说明" class="form-control" id="m_explain" />
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="disabledinput"> 入小组时间</label>
+                    <div class="col-sm-6">
+                        <input type="text" placeholder="入小组时间" class="form-control" id="m_date" />
+                    </div>
+
+                </div>
+          </form>
+
+              <div class="panel-footer">
+                <div class="row">
+                  <div class="col-sm-6 col-sm-offset-3">
+                    <button class="btn btn-primary" id="sub"> 确 定 </button> &nbsp;
+                    <button class="btn btn-default" id="cancel"> 取 消 </button>
+                  </div>
+                </div>
+              </div><!-- panel-footer -->  
+          </div><!-- panel-body -->  
+      </div><!-- panel -->
+      <script>
+          $("#sub").click(function() {
+            $.ajax({
+              type: 'POST',
+              url: "{:U('March/input')}",
+              data: {
+                'm_id': $('#m_id').val(),//学号
+                'm_name': $('#m_name').val(),//姓名
+                'm_class': $('#m_class').val(),//班级
+                'm_sex': $('#m_sex').val(),//性别
+                'm_born': $('#m_born').val(),//生日
+                'm_place': $('#m_place').val(),//
+                'm_address': $('#m_address').val(),
+                'm_hobby': $('#m_hobby').val(),
+                'm_domanial': $('#m_domanial').val(),
+                'm_qq': $('#m_qq').val(),
+                'm_phone': $('#m_phone').val(),
+                'm_email': $('#m_email').val(),                      
+                'm_explain': $('#m_explain').val(),
+                'm_date': $('#m_date').val(),
+              },
+              success: function(data) {
+                if (data.status == 0) {
+                  layer.msg(data.info, { icon: 2 });                 
+                } else {
+                  layer.msg(data.info, { icon: 1 });
+                }
+              }
+            })
+          });
+          $("#cancel").click(function() {
+              $('#m_id').val(""),//学号
+              $('#m_name').val(""),//姓名
+              $('#m_class').val(""),//班级
+              $('#m_sex').val(""),//性别
+              $('#m_born').val(""),//生日
+              $('#m_place').val(""),//
+              $('#m_address').val(""),
+              $('#m_hobby').val(""),
+              $('#m_domanial').val(""),
+              $('#m_qq').val(""),
+              $('#m_phone').val(""),
+              $('#m_email').val(""),                      
+              $('#m_explain').val(""),
+              $('#m_date').val("")
+          });
+      </script>
+</block>

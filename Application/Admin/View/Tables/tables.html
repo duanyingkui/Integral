@@ -1,0 +1,312 @@
+﻿<extend name="Base:base"/>
+<block name="css_link">
+    <link href="__BRACKET__/css/jquery.datatables.css" rel="stylesheet">
+    <link href="__BRACKET__/css/pagelist.css" rel="stylesheet">
+    <script src="__BRACKET__/js/showdate.js"></script>
+    <style type="text/css">
+      .put {
+        float:left;
+        margin-left:20px;
+        margin-top: 10px;
+      }
+      .nav-bracket #tables a {
+        background-color: #1caf9a;
+        color: #fff;
+      }      
+      </style>
+</block>
+
+<block name="main">       
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <!-- <a href="" class="minimize">&minus;</a> -->
+          </div><!-- panel-btns -->
+          <h3 class="panel-title">积分表</h3>
+          <div class="panel-body" style="height: auto;">
+              <form id="searchForm" name="searchform" class="well form-search" method="post"  onSubmit="check();" enctype="multipart/form-data" style="background-color:white;">
+              <!-- 学号 -->
+              <div class="put">
+                <input placeholder="按学号检索" name="search[s_id]" value="{$search['s_id']}" list="id_name" class="form-control" autocomplete="off" width="130px">
+                <datalist id="id_name">
+                  <foreach name="id_name" item='vo'>
+                    <option value="{$vo.s_id}"></option>
+                  </foreach>
+                </datalist>
+              </div>
+              <!-- 班级 -->
+              <div class="put">
+                <input placeholder="按班级检索" name="search[c_name]" value="{$search['c_name']}" list="name" class="form-control" autocomplete="off" width="130px">
+                <datalist id="name">
+                  <foreach name="c_name" item='vo'>
+                    <option value="{$vo.c_name}"></option>
+                  </foreach>
+                </datalist>
+              </div>
+              <!-- 学期 -->
+              <div class="put">
+                <input placeholder="按学期检索" name="search[sc_term]" value="{$search['sc_term']}" list="term" class="form-control" autocomplete="off" width="130px">
+                <datalist id="term">
+                  <foreach name="term" item='vo'>
+                    <option value="{$vo.sc_term}"></option>
+                  </foreach>
+                </datalist>
+              </div>
+              <!-- 部室 -->
+              <div class="put">
+                <input placeholder="按部室检索" name="search[sc_union]" value="{$search['sc_union']}" list="union" class="form-control" autocomplete="off" width="130px">
+                <datalist id="union">
+                  <foreach name="union" item='vo'>
+                    <option value="{$vo.sc_union}"></option>
+                  </foreach>
+                </datalist>
+              </div>
+              <!-- 导入时间 -->
+              <if condition="$_SESSION['is_power'] eq 1" >
+                <div class="put">
+                  <input id="time1" placeholder="按导入时间检索" name="search[sc_uploadtime]" value="{$search['sc_uploadtime']}" class="form-control" autocomplete="off" onClick="return Calendar('time1');" width="130px"/>
+                </div>
+              </if>
+              
+                <div style="float:right;margin-right: 40px;margin-top: 10px;">      
+                  <input type="image" title="搜索" src="__BRACKET__/images/search2.png" style="width: 35px;height: 35px;" onclick="checkaction(1);"/>
+                  <input type="image" title="导出" id="btn" src="__BRACKET__/images/cloud1.png" style="width: 35px;height: 35px;margin-left: 10px;" onclick="checkaction(0);"/>
+                </div>     
+              </form>
+        </div>
+        <br>
+        <hr>
+        <div class="panel-body" style="overflow: auto;padding: 3px">         
+          <div class="table-responsive" id="list">         
+          <form style="min-width:990px;">
+          <a class="btn btn-xs btn-info pull-left mr-5" id="discard" href="javascript:void(0);">删除</a>
+          <!-- <a class="btn btn-xs btn-info pull-left mr-5" style="margin-left: 20px;" id="clearAll" href="javascript:void(0);">一键删除</a>         -->
+          <table class="table table-striped" id="table2" align="center">
+              <thead>
+                  <tr>
+                    <th><input class="all" type="checkbox" class="" /></th>
+                    <th width="50px">学号</th>
+                    <th width="80px">姓名</th>
+                    <th width="100px">班级</th>
+                    <th>分数</th>
+                    <th width="150px">原因</th>
+                    <th width="120px">时间</th>                   
+                    <th width="80px">部室</th>
+                    <th>记录/修改者</th>
+                    <th>修改时间</th>
+                    <th>操作</th>
+                  </tr>
+              </thead>
+              <tbody>
+              <if condition="$list">
+              <foreach name="list" item='vo'>
+                  <tr>
+                      <td><input name="delete[]" type="checkbox" value="{$vo.id}"/></td>
+                      <td>{$vo.s_id}</td>
+                      <td>{$vo.s_name}</td>
+                      <td>{$vo.c_name}</td>
+                      <td>{$vo.sc_number}</td>
+                      <td>{$vo.sc_reason}</td>
+                      <td>{$vo.sc_time}</td>
+                      <td>{$vo.sc_union}</td>                      
+                      <td class="center">{$vo.sc_who}</td>
+                      <td class="center">
+                        <if condition="$vo.sc_modifytime != 0"> 
+                          {$vo.sc_modifytime||date='Y-m-d',###}
+                        </if>
+                      </td>
+                      <td class="center">
+                        <a class="btn btn-xs btn-info mr-5" href="javascript:void(0);" data-toggle="modal" data-target="#myModal" onclick="tables(this)" data-id="{$vo.id}">修改</a>
+                      </td>
+                  </tr>
+              </foreach>
+                <else/>
+                  <tr><td></td><td width="120px">暂无相关信息</td></tr>
+                </if>            
+              </tbody>
+           </table>
+          </form>
+          </div><!-- table-responsive -->
+          <div class="pagelist">{$page}</div>
+        </div><!-- panel-body -->
+      </div><!-- panel -->        
+    </div><!-- contentpanel -->
+<!-- 修改 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">积分修改</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal form-bordered" method="post">
+              <div class="form-group">
+                <input type="hidden" name="id">
+                <label class="col-sm-3 control-label" ></label>
+                <div class="col-sm-6">
+                   学号 <input type="text" disabled="" name="s_id" class="form-control" id="s_id" maxlength="11" />
+                  <span class="Validform_checktip"></span> 
+                  <br>
+                   姓名 <input type="text" disabled="" name="s_name" class="form-control" id="s_name" maxlength="11"/>
+                  <span class="Validform_checktip"></span>
+                  <br>
+                   班级 <input type="text" disabled="" name="c_name" class="form-control" id="c_name"/>
+                  <span class="Validform_checktip"></span>
+                  <br>
+                   积分 <input type="text" name="sc_number" class="form-control" id="sc_number"  nullmsg="请填写积分！"/>
+                  <span class="Validform_checktip"></span>
+                  <br>
+                   原因 <input type="text" name="sc_reason" class="form-control" id="sc_reason"/>
+                  <span class="Validform_checktip"></span>
+                  <br>
+                   部室 <input type="text" disabled="" name="sc_union" class="form-control" id="sc_union"/>
+                  <span class="Validform_checktip"></span>
+                  <br>
+                   时间 <input type="text" naem="sc_time" class="form-control" id="sc_time"/>
+                  <span class="Validform_checktip"></span>
+                  <br>
+                  修改人<input type="text" name="sc_who" class="form-control" id="sc_who"/>
+                  <span class="Validform_checktip"></span>
+                  <input type="hidden" id="edit_id_update">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="submit" class="btn btn-primary" id="editform">保存</button>
+          </div>
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div><!-- modal -->
+  
+<script>
+  $(function(){
+    $(".pagelist a").live('click',function(){
+      var pageObj = this;
+      var url = pageObj.href;
+      $.ajax({
+        type:'get',
+        url:url,
+        success:function(res){
+           $(".panel-body").html(res);
+        }
+      })
+      return false;
+    })
+  })
+</script>
+<script type="text/javascript">
+ $('.all').click(function() {
+    if($(this).is(':checked')) {
+      $(':checkbox').attr('checked', 'checked');
+    } else {
+      $(':checkbox').removeAttr('checked');
+    }
+  });
+  // 删除操作
+  $('#discard').click(function() {
+    if($(':checked').size() > 0) {
+      layer.confirm('确定要删除吗？', {
+        btn: ['确定','取消'],
+        shade: false 
+      }, function(){
+        $.post("{:U('Tables/delete')}", {data: $('form').serializeArray()}, function(res) {
+          if(res.state == 1) {
+            layer.msg(res.message, {icon: 2, time: 1000});
+          } else {
+            layer.msg(res.message, {icon: 1, time: 1000});
+          }
+          setTimeout(function() {
+            location.reload();
+          }, 1000);
+        });
+      }, function(){
+        layer.msg('取消了删除操作！', {time: 1000});
+        $(':checkbox').removeAttr('checked');
+      });
+    } else {
+      layer.alert('没有选择！');
+    }
+  });
+</script>
+
+<!-- <script type="text/javascript">
+  $('#btn').click(function(){
+    if ($("#c_name").val() == "" && $("#s_id").val() == "" && $("#sc_union").val() == "") {
+        layer.alert("搜索条件不能为空");
+        return false;
+      }
+  });
+</script> -->
+
+<script type="text/javascript">
+function checkaction(v){ 
+  if(v==0){ 
+  document.searchform.action="{:U('Tables/export')}";
+
+  }else{ 
+  document.searchform.action="{:U('Tables/tables')}"; 
+  } 
+  searchform.submit(); 
+} 
+</script>
+
+<script type="text/javascript">
+    function tables(ss){
+      var edit_id = $(ss).data('id');
+      var url = "{:U('Tables/edit')}";
+      $.post(url,{
+        'edit_id':edit_id
+      },function(msg){
+        $("#s_id").val(msg.s_id);
+        $("#s_name").val(msg.s_name);
+        $("#c_name").val(msg.c_name);
+        $("#sc_number").val(msg.sc_number);
+        $("#sc_reason").val(msg.sc_reason);
+        $("#sc_time").val(msg.sc_time);
+        $("#sc_union").val(msg.sc_union);
+        $("#sc_who").val(msg.sc_who);
+        $("#edit_id_update").val(msg.id);
+      });
+    };
+
+    $("#editform").click(function(){
+      var url = "{:U('Tables/save')}";
+      if ($("#sc_number").val() == "") {
+        layer.alert("积分不能为空");
+        return false;
+      }
+      if ($("#sc_reason").val() == "") {
+        layer.alert("积分原因不能为空");
+        return false;
+      }
+      if ($("#sc_time").val() == "") {
+        layer.alert("时间不能为空");
+        return false;
+      }
+      if ($("#sc_who").val() == "") {
+        layer.alert("修改人不能为空");
+        return false;
+      }
+      $.post(url,{
+        'id':$("#edit_id_update").val(),
+        's_id':$("#s_id").val(),
+        's_name':$("#s_name").val(),
+        'c_name':$("#c_name").val(),
+        'sc_number':$("#sc_number").val(),
+        'sc_reason':$("#sc_reason").val(),
+        'sc_time':$("#sc_time").val(),
+        'sc_union':$("#sc_union").val(),
+        'sc_who':$("#sc_who").val()
+      },function(msg){
+        layer.msg("修改成功！");
+        setTimeout(function(){
+            location.reload();
+        },1000);          
+      });                                                       
+    });
+</script>
+
+</block>

@@ -1,0 +1,256 @@
+<extend name="Base:base"/>
+<block name="css_link">
+    <link href="__BRACKET__/css/jquery.datatables.css" rel="stylesheet">
+    <link href="__BRACKET__/css/pagelist.css" rel="stylesheet">
+</block>
+
+<block name="main">       
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-btns">
+            <!-- <a href="" class="minimize">&minus;</a> -->
+          </div><!-- panel-btns -->
+          <h3 class="panel-title">积分表</h3>
+          <div class="panel-body" style="height: auto;">
+              <form id="searchForm" name="searchform" class="well form-search" method="post"  onSubmit="check();" enctype="multipart/form-data" style="background-color:white;">
+
+                <div style="float:left;margin-left: 40px;margin-top: 10px;">      
+                  <input type="image" src="__BRACKET__/images/search2.png" style="width: 35px;height: 35px;" onclick="checkaction(1);"/>
+                  <input type="image" id="btn" src="__BRACKET__/images/cloud1.png" style="width: 35px;height: 35px;margin-left: 10px;" onclick="checkaction(0);"/>
+                  </div>     
+              </form>
+        </div>
+        <br>
+        <hr>
+        <div class="panel-body" style="overflow: auto;">         
+          <div class="table-responsive" id="list">         
+          <form style="min-width:990px;">
+          <a class="btn btn-xs btn-info pull-left mr-5" id="discard" href="javascript:void(0);">删除</a>
+    
+          <form id="searchForm" name="searchform" class="well form-search" method="post"  onSubmit="check();" enctype="multipart/form-data" style="background-color:white;">
+              <div style="float:left;margin-left: 40px;margin-top: 10px;">      
+                <input type="image" id="btn" src="__BRACKET__/images/cloud1.png" style="width: 35px;height: 35px;margin-top: -15px;" onclick="checkaction(0);"/>
+              </div>
+            </form> 
+          <table class="table table-striped" id="table2" align="center">
+              <thead>
+                  <tr>
+                    <th><input class="all" type="checkbox" class="" /></th>
+                    <th width="50px">学号</th>
+                    <th>姓名</th>
+                    <th>班级</th>
+                    <th>性别</th>
+                    <th>生日</th>
+                    <th>籍贯</th>                   
+                    <th>现居地</th>
+                    <th>爱好</th>
+                    <th>关注的技术领域</th>
+                    <th>QQ</th>
+                    <th>手机号</th>
+                    <th>Email</th>
+                    <th>个人说明</th>
+                    <th>入小组时间</th>
+                  </tr>
+              </thead>
+              <tbody>
+              <if condition="$list">
+              <foreach name="list" item='vo'>
+                  <tr>
+                      <td><input name="delete[]" type="checkbox" value="{$vo.m_id}"/></td>
+                      <td>{$vo.m_id}</td>
+                      <td>{$vo.m_name}</td>
+                      <td>{$vo.m_class}</td>
+                      <td>{$vo.m_sex}</td>
+                      <td>{$vo.m_born}</td>
+                      <td>{$vo.m_place}</td>
+                      <td>{$vo.m_address}</td>                      
+                      <td>{$vo.m_hobby}</td>
+                      <td>{$vo.m_domanial}</td>
+                      <td>{$vo.m_qq}</td>
+                      <td>{$vo.m_phone}</td>
+                      <td>{$vo.m_email}</td>
+                      <td>{$vo.m_explain}</td>
+                      <td>{$vo.m_date}</td>
+                      <td class="center">
+                        <a class="btn btn-xs btn-info mr-5" href="javascript:void(0);" data-toggle="modal" data-target="#myModal" onclick="tables(this)" data-id="{$vo.m_id}">修改</a>
+                      </td>
+                  </tr>
+              </foreach>
+                <else/>
+                  <tr><td id="zero" colspan="xx">暂无相关信息</td></tr>
+                </if>            
+              </tbody>
+           </table>
+          </form>
+          </div><!-- table-responsive -->
+          <!-- <div class="pagelist">{$page}</div> -->
+        </div><!-- panel-body -->                                               
+      </div><!-- panel -->        
+   <!--  </div> --><!-- contentpanel -->
+<!-- 修改 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">    
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">信息修改</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal form-bordered" method="post">
+              <div class="form-group">
+                <input type="hidden" name="id">
+                <label class="col-sm-3 control-label" ></label>
+                <div class="col-sm-6">
+                   学号 <input type="text" disabled="" name="s_id" class="form-control" id="m_id" maxlength="11" />
+                  <br>
+                   姓名 <input type="text" disabled="" name="s_name" class="form-control" id="m_name" maxlength="11"/>
+                  <br>
+                   班级 <input type="text" disabled="" name="c_name" class="form-control" id="m_class"/>
+                  <br>
+                   性别 <input type="text" name="sc_number" class="form-control" id="m_sex"  nullmsg="请填写积分！"/>
+                  <br>
+                   生日 <input type="text" name="sc_reason" class="form-control" id="m_born"/>
+                  <br>
+                   籍贯 <input type="text" name="sc_union" class="form-control" id="m_place"/>
+                  <br>
+                   现居地 <input type="text" naem="sc_time" class="form-control" id="m_address"/>
+                  <br>
+                   爱好 <input type="text" name="sc_who" class="form-control" id="m_hobby"/>
+                   <br>
+                   所关注的技术领域 <input type="text" name="sc_who" class="form-control" id="m_domanial"/>
+                   <br>
+                   QQ <input type="text" name="sc_who" class="form-control" id="m_qq"/>
+                   <br>
+                   手机号 <input type="text" name="sc_who" class="form-control" id="m_phone"/>
+                   <br>
+                   Email <input type="text" name="sc_who" class="form-control" id="m_email"/>
+                   <br>
+                   个人说明 <input type="text" name="sc_who" class="form-control" id="m_explain"/>
+                   <br>
+                   入小组时间 <input type="text" name="sc_who" class="form-control" id="m_date"/>
+                  <input type="hidden" id="edit_id_update">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" id="editform">Save changes</button>
+          </div>
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div><!-- modal -->
+  
+<script type="text/javascript">
+  jQuery(document).ready(function() {     
+    jQuery('#table2').dataTable({
+      "sPaginationType": "full_numbers"
+    });    
+    // Select2
+    jQuery('select').select2({
+        minimumResultsForSearch: -1
+    });     
+  });
+</script>
+<script type="text/javascript">
+ $('.all').click(function() {
+    if($(this).is(':checked')) {
+      $(':checkbox').attr('checked', 'checked');
+    } else {
+      $(':checkbox').removeAttr('checked');
+    }
+  });
+
+  // 删除操作
+  $('#discard').click(function() {
+    if($(':checked').size() > 0) {
+      layer.confirm('确定要删除吗？', {
+        btn: ['确定','取消'],
+        shade: false 
+      }, function(){
+        $.post("{:U('March/delete')}", {data: $('form').serializeArray()}, function(res) {
+          if(res.state == 0) {
+            layer.msg(res.message, {icon: 2, time: 1000});
+          } else {
+            layer.msg(res.message, {icon: 1, time: 1000});
+          }
+          setTimeout(function() {
+            location.reload();
+          }, 1000);
+        });
+      }, function(){
+        layer.msg('取消了删除操作！', {time: 1000});
+        $(':checkbox').removeAttr('checked');
+      });
+    } else {
+      layer.alert('没有选择！');
+    }
+  });
+</script>
+
+<script type="text/javascript">
+function checkaction(v){ 
+  if(v==0){ 
+  document.searchform.action="{:U('Admin/March/export')}";
+
+  }else{ 
+  document.searchform.action="{:U('Admin/March/march')}"; 
+  } 
+  searchform.submit(); 
+} 
+</script>
+
+<script type="text/javascript">
+    function tables(ss){
+      var edit_id = $(ss).data('id');
+      var url = "{:U('March/edit')}";
+      $.post(url,{
+        'edit_id':edit_id
+      },function(msg){
+        $("#m_id").val(msg.m_id);
+        $("#m_name").val(msg.m_name);
+        $("#m_class").val(msg.m_class);
+        $("#m_sex").val(msg.m_sex);
+        $("#m_born").val(msg.m_born);
+        $("#m_place").val(msg.m_place);
+        $("#m_address").val(msg.m_address);
+        $("#m_hobby").val(msg.m_hobby);
+        $("#m_domanial").val(msg.m_domanial);
+        $("#m_qq").val(msg.m_qq);
+        $("#m_phone").val(msg.m_phone);
+        $("#m_email").val(msg.m_email);
+        $("#m_explain").val(msg.m_explain);
+        $("#m_date").val(msg.m_date);
+        $("#edit_id_update").val(msg.m_id);
+      });
+    };
+
+    $("#editform").click(function(){
+      var url = "{:U('March/save')}";
+      $.post(url,{
+        'm_id':$("#edit_id_update").val(),
+        'm_name':$("#m_name").val(),
+        'm_class':$("#m_class").val(),
+        'm_sex':$("#m_sex").val(),
+        'm_born':$("#m_born").val(),
+        'm_place':$("#m_place").val(),
+        'm_address':$("#m_address").val(),
+        'm_hobby':$("#m_hobby").val(),
+        'm_domanial':$("#m_domanial").val(),
+        'm_qq':$("#m_qq").val(),
+        'm_phone':$("#m_phone").val(),
+        'm_email':$("#m_email").val(),
+        'm_explain':$("#m_explain").val(),
+        'm_date':$("#m_date").val()
+      },function(msg){
+        layer.msg("修改成功！");
+        setTimeout(function(){
+            location.reload();
+        },1000);          
+      });                                                       
+    });
+</script>
+
+
+
+</block>

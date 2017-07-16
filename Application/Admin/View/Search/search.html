@@ -1,0 +1,77 @@
+<extend name="searchBase"/>
+<block name="cssStyle">
+    <style>
+        #name{
+            display: block;
+            color: green;
+            font-size: 20px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin-top: 25px;
+        }
+        #snum{
+            display: block;
+            color: green;
+            font-size: 15px;
+            margin-top: 10px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+    </style>
+</block>
+<block name="js">
+    <script>
+        function submitForm(ele){
+            var  val = ele.getAttribute('id');
+            var f = document.getElementById('detail');
+            if(val == 'person'){
+                f.action = 'personScoreDetail';
+            }else if(val == 'class'){
+                f.action = 'classScoreDetail'
+            }
+            f.submit();
+        }
+    </script>
+</block>
+
+<block name="content">
+    <p id="name">{$list['name']}</p>
+    <p id="snum">{$s_id}</p>
+
+    <if condition="$ishave eq 1" >
+         <div class="table-responsive" style="margin-top:40px">
+        <table class="table mb30">
+            <thead align="center">
+                <tr>
+                    <td>总分</td>
+                    <td>{$list['all_score']}</td>
+                </tr>
+                <tr>
+                    <td>班级排名</td>
+                    <td>{$list['class_rank']}</td>
+                </tr>
+                <tr>
+                    <td>专业排名</td>
+                    <td>{$list['major_rank']}</td>
+                </tr>
+            </tbody>
+        </table>
+             <br/>
+         <form id="detail" style="border: none" action="personScoreDetail" method="post">
+            <input type="hidden" name="s_id" value="{$s_id}">
+            <input type="hidden" name="c_name" value="{$list['class_name']}">
+            <input type="hidden" name="term" value="{$list['term']}">
+            <div class="btn btn-primary" style="background-color: #128de3;border: none" id="person"  onclick="submitForm(this)">个人详情</div>
+             <div class="btn btn-primary" style="background-color: #128de3;border: none" id="class" onclick="submitForm(this)">本班详情</div>
+        </form>
+
+        <elseif condition="$iswarn eq 1"/>
+             <h4 style="color: red">{$warn}</h4>
+             <else/>
+         <h4 style="color: red">本学期没有你的积分数据，可以查看上学期的^_^！</h4>
+    </if>
+       
+    </div>
+</block>
+<block name="admin">
+
+</block>
+
